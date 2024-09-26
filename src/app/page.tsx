@@ -1,22 +1,19 @@
-'use client'
 import Image from "next/image";
-import { useState } from "react";
+import Link from "next/link";
+import Styles from './home.module.css'
 
 export default function Home() {
-  const [user, setUser] = useState(true);
- if(user){
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <h1>Cliente</h1>
-      <button onClick={() => setUser(false)}>Oi</button>
+    <div className={Styles.centro}>
+      <center>
+        <p className={Styles.p}>Página Home!</p>
+        <br/>
+        <button className={Styles.botao}>
+          <Link href={"/login/"}>
+            <p>Ir para LOGIN!</p>
+          </Link>
+        </button>
+      </center>
     </div>
   );
- }else{
-  return(
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-    <h1>Administrador</h1>
-    <button onClick={() => setUser(true)}>Hi</button>
-  </div>
-  );
- }
 }
