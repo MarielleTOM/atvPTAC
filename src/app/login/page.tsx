@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Styles from "./login.module.css";
+import Input from "../Componentes/input";
 
 export default function Login(){
     const router = useRouter();
@@ -22,24 +23,24 @@ export default function Login(){
            <center><p className={Styles.p}>Página de Login!</p> 
            <br/>
            <input
-        className={Styles.input}
-        type="email"
-        placeholder="Digite seu email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}/>
-      <br/>
-      <br/>
-      <input
-        className={Styles.input}
-        type="password"
-        placeholder="Digite sua senha"
-        value={senha}
-        onChange={(e) => setSenha(e.target.value)}/>
-      <br/>
-      <br/>
-      <button onClick={login} className={Styles.botao}>Login</button>
-      {errologin && <p>{errologin}</p>}
-      </center>
-    </div>  
+                className={Styles.input}
+                type="email"
+                placeholder="Digite seu email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}/>
+            <br/>
+            <br/>
+            <input
+                className={Styles.input}
+                type="password"
+                placeholder="Digite sua senha"
+                value={senha}
+                onChange={(e) => setSenha(e.target.value)}/>
+            <br/>
+            <br/>
+            <button onClick={login} className={Styles.botao}>Login</button>
+            {errologin && <p>{errologin}</p>}
+            </center>
+        </div>  
     )
 }
