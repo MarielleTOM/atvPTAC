@@ -1,10 +1,12 @@
 type InputProp= {
-    value: string;
-    funcao: (e: string)=> void
+    valor: string;
+    funcao: ()=> void
 }
 
 const Input : React.FC<InputProp>= ({valor, funcao}) => {
     return(
-        <input value={valor} onChange={funcao}
+        <input value={valor} onChange={funcao}/>
     )
 }
+
+export default Input;
