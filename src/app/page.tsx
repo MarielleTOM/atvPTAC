@@ -7,10 +7,17 @@ export default function Home() {
     <div className={Styles.centro}>
       <center>
         <p className={Styles.p}>Página Home!</p>
-        <br/>
+        <br />
         <button className={Styles.botao}>
           <Link href={"/login/"}>
             <p>Ir para LOGIN!</p>
+          </Link>
+        </button>
+        <br />
+        <br />
+        <button className={Styles.botao}>
+          <Link href={"/cadastro/"}>
+            <p>Ir para CADASTRO</p>
           </Link>
         </button>
       </center>
