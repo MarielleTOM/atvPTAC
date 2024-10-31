@@ -1,7 +1,9 @@
 interface Usuario {
+    id?: number;
     nome: string;
-    idade: number;
     email?: string;
+    password: string;
+    tipo: "cliente" | "admin"
 }
 
 /*const PerfilUsuario:React.FC<{usuario: Usuario}> = ({usuario}) => {
