@@ -2,15 +2,15 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Styles from "./login.module.css";
+import Input from "../Componentes/input";
 import Usuario from '../Interfaces/usuario';
 
 export default function Login(){
     const router = useRouter();
     const [email, setEmail] = useState('');
     const [senha, setSenha] = useState('');
-    const [userName, setUserName] = useState(''); // Adicionado o estado userName
-    const [errologin, setErroLogin] = useState('');
-    const [usuarios, setUsuarios] = useState<Usuario[]>([
+    const [errologin, setErroLogin] = useState('')
+    const [usuario, setUsuario] = useState<Usuario[]>([
         {
             id: 1,
             nome: "Anielly",
@@ -25,73 +25,57 @@ export default function Login(){
             password: "divamenor123",
             tipo: "Cliente"
         }
-    ]);
+    ])
 
-    // Função para realizar o login
-    const login = () => {
-        const usuarioEncontrado = usuarios.find(user => user.email === email && user.password === senha);
-        
-        if (usuarioEncontrado) {
-            router.push('/'); // Redireciona para a página principal
-        } else {
-            setErroLogin('Email ou senha incorretos');
+const router = useRouter();
+
+const onSubmit = (e: React.FormEvent<HTMLFormElement>)=>{
+    e.preventDefault()
+    const Usuario = usuario.find((user) => user.email == email && user.password == senha
+    )
+    console.log(usuario)
+}
+
+
+
+    const login = () =>{
+        if(email === 'marizinha@gmail.com' && senha === 'marizinha123'){
+            router.push('/');
+        }else{
+            setErroLogin('Email ou/e senha incorretos');
         }
     };
 
-    // Evento de submit do formulário
-    const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault(); // Previne o comportamento padrão do formulário
-        login(); // Chama a função de login
-    };
-
     useEffect(() => {
-        // Exemplo de como você pode buscar usuários de um arquivo JSON
         fetch('/data/usuario.json')
         .then((dados) => dados.json())
-        .then((dado) => setUsuarios(dado))  // Atualiza a lista de usuários
-        .catch((error) => console.log(error));
-    }, []);
+        .then((dado) => console.log(dado))
+        .catch((error) => console.log(error))
+    }, [])
 
-    return (
-        <div style={{ alignContent: "center", verticalAlign: 'center', height: '100%', padding: '30px' }}>
-            <form onSubmit={onSubmit} className={Styles.form}>
-                <h1 className={Styles.h1}>Login</h1>
-                <div>
-                    <label className={Styles.label} htmlFor="userName">User Name:</label>
-                    <input 
-                        type="text" 
-                        id="userName" 
-                        value={userName} // Agora está vinculado ao estado userName
-                        className={Styles.input}
-                        placeholder="Digite um User Name"
-                        onChange={(e) => {setUserName(e.target.value)}} // Atualiza o estado com o valor digitado
-                    />
-                </div>
-                <div>
-                    <label className={Styles.label} htmlFor="email">Email:</label>
-                    <input 
-                        type="text" 
-                        id="email" 
-                        value={email} 
-                        className={Styles.input}
-                        onChange={(e) => {setEmail(e.target.value)}}
-                    />
-                </div>
-                <div>
-                    <label className={Styles.label} htmlFor="senha">Senha:</label>
-                    <input 
-                        type="password" 
-                        id="senha" 
-                        value={senha}
-                        className={Styles.input}
-                        onChange={(e) => {setSenha(e.target.value)}}
-                    />
-                </div>
-                <button className={Styles.button} type="submit">Olá</button>
-                <p className={Styles.p} onClick={() => { router.push('/Cadastrar')}}>Criar novo cadastro</p>
-            </form>
-       </div>
- );
-}
-
-/* CÓDIGO ANTERIOR LIMPO: DONT "aniPTAC" */
+    return(
+        <div className={Styles.centro}>
+           <center><p className={Styles.p}>Página de Login!</p> 
+           <br/>
+           <input
+                className={Styles.input}
+                type="email"
+                placeholder="Digite seu email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}/>
+            <br/>
+            <br/>
+            <input
+                className={Styles.input}
+                type="password"
+                placeholder="Digite sua senha"
+                value={senha}
+                onChange={(e) => setSenha(e.target.value)}/>
+            <br/>
+            <br/>
+            <button onClick={login} className={Styles.botao}>Login</button>
+            {errologin && <p>{errologin}</p>}
+            </center>
+        </div>  
+    )
+}   
