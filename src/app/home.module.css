@@ -1,19 +1,21 @@
 .botao {
-    background-color: white;
-    color: black;
-    border: 2px solid black;
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    border-radius: 5px;
-}
-
-.botao:hover {
-    background-color: black;
+    background-color: #d9534f;
+    border: none;
+    padding: 15px 30px;
+    margin: 15px;
+    border-radius: 8px;
     color: white;
+    font-size: 1.2em;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    width: 200px;
 }
 
+/* Efeito de hover nos botões */
+.botao:hover {
+    background-color: #c9302c;
+    transform: scale(1.1);
+}
 .centro {
     height: 100vh;
     margin: 0;
