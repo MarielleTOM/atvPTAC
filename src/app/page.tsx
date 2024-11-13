@@ -6,7 +6,7 @@ import NavBar from "./Componentes/navbar"
 
 export default function Home() {
   return (
-    <div>
+    <div className="body">
       <NavBar />
       <div className={Styles.conteiner}>
         <center>
