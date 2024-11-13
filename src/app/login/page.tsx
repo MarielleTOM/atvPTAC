@@ -44,7 +44,7 @@ export default function Login() {
               setCookie(undefined, 'restaurant-token', token, {
                 maxAge: 60*60*1 // 1 hora
               } )
-  
+              router.push('/')
             }
           } else {
   

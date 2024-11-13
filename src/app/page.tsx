@@ -8,7 +8,7 @@ export default function Home() {
   return (
     <div>
       <NavBar />
-      <div className={Styles.centro}>
+      <div className={Styles.conteiner}>
         <center>
           <br />
           <button className={Styles.botao}>
