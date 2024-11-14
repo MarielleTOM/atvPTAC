@@ -61,11 +61,10 @@ export default function cadastro() {
                 body: JSON.stringify(usuario),
             });
 
-            console.log(response)
+            console.log(response.ok)
+            
 
-            if (!response.ok) {
-                throw new Error('Falha na requisição. Verifique o servidor.');
-            }
+            if (response) {
 
             const data: ResponseCadastro = await response.json();
             const { erro, mensagem } = data;
@@ -75,6 +74,7 @@ export default function cadastro() {
             } else {
                 router.push('/login');
             }
+        }
         } catch (error) {
             console.error('Erro na requisição:', error);
             setErroCadastro('Ocorreu um erro. Tente novamente mais tarde.');
