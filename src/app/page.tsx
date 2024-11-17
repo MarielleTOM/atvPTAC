@@ -23,6 +23,13 @@ export default function Home() {
               <p>Ir para CADASTRO</p>
             </Link>
           </button>
+          <br />
+          <br />
+          <button className={Styles.botao}>
+            <Link href={"/reserva"}>
+              <p>Ir para RESERVA</p>
+            </Link>
+          </button>
         </center>
       </div>
     </div>
