@@ -1,40 +1,48 @@
-'use client'
-
-import NavBar from "../Componentes/navbar";
+"use client"
 import Image from "next/image";
-import style from "./reserva.module.css";
-import {stringify} from "querystring";
-import { ChangeEvent,useEffect, useState } from "react";
+import { stringify } from "querystring";
+import { ChangeEvent, useEffect, useState } from "react";
+import NavBar from '../Componentes/navbar';
 import Mesa from "../Interfaces/mesa";
-import { Reservas } from "../Interfaces/reservas";
-
 export default function Home() {
-
-    const [mesas, setMesas]= useState<Mesa>([])
-    const [reservas, setreservas] = useState<Reservas>([])
-
-    useEffect(()=>{
-      async function fetchData() {
-        const response = await fetch('http://localhost:3333/reservas')
-        const data = await response.json()
-        setMesas(data.mesas)
-      }
-    })
-
-    function getDateNow (){
-      const today = new Date()
-      return today.toISOString().split("T")[0]
+const [mesas, setMesas] = useState<Mesa>();
+  
+useEffect(() => {
+    async function fetchData(){
+      const response = await fetch('http://localhost:3333/reservas')
+      const data = await response.json()
+      setMesas(data.mesas)
     }
-    const [selectedTable, setSelectedTable] = useState(null);
-    const [dateTables, setDateTables] = useState(getDateNow)
+ 
+  })
+  function getDateNow (){
+    const today = new Date()
+    return today.toISOString().split("T")[0]
+  }
+  const [selectedTable, setSelectedTable] = useState(null);
+  const [dateTables, setDateTables] = useState(getDateNow)
   const tables = [{id: 1, nome: "Mesa 1"}, {id: 2, nome: "Mesa 2"}, {id: 3, nome: "Mesa 3"}]
+  const reservas = [{
+    id : 1,
+    mesa: 1,
+    data: '2024-11-29'
+  }, 
+  {
+    id : 1,
+    mesa: 2,
+    data: '2024-11-29'
+  },
+  {
+    id : 1,
+    mesa: 2,
+    data: '2024-11-28'
+  }]
   function handleChangeDate (e: ChangeEvent<HTMLInputElement>) {
     setDateTables(e.target.value)
   }
-
-  return(
+  return (
     <div>
-        <NavBar/>
+      <NavBar/>
     <div className="min-h-screen bg-gray-100 flex flex-col lg:flex-row">
       
       <div className="w-full lg:w-1/4 text-white p-4 flex items-center">
@@ -44,7 +52,7 @@ export default function Home() {
             alt="Usuário"
             className="w-24 h-24 mx-auto rounded-full border-4 border-indigo-500"
           />
-    <h2 className="text-center text-lg font-bold mt-4">Moniky Souza Lopes</h2>
+          <h2 className="text-center text-lg font-bold mt-4">Moniky Souza Lopes</h2>
           <p className="text-center text-gray-600">Cliente</p>
         </div>
       </div>
