@@ -4,7 +4,7 @@ import NavBar from "../Componentes/navbar";
 import Image from "next/image";
 import style from "./reserva.module.css";
 import {stringify} from "querystring";
-import { ChangeEvent,useEffect, useState } from "react";
+import { ChangeEvent,FormEvent,useEffect, useState } from "react";
 import Mesa from "../Interfaces/mesa";
 import { Reservas } from "../Interfaces/reservas";
 
@@ -12,12 +12,28 @@ export default function Home() {
 
     const [mesas, setMesas]= useState<Mesa>([])
     const [reservas, setreservas] = useState<Reservas>([])
+    const [formReserva, setFormReserva] = useState<Reservas>({
+      id: 0,
+    usuario_id:0,
+    mesa_id:0,
+    data: "",
+    n_pessoas:0,
+    status: true
+    })
+
+   function alterId< K extends keyof Reservas>(key: K, value:Resesrvas[K]){
+    setFormReserva((prevForm)=>({
+      ...prevForm,
+      [key]:value
+    }))
+   }
 
     useEffect(()=>{
       async function fetchData() {
         const response = await fetch('http://localhost:3333/reservas')
         const data = await response.json()
         setMesas(data.mesas)
+        setreservas(data.reservas)
       }
     })
 
@@ -30,6 +46,10 @@ export default function Home() {
   const tables = [{id: 1, nome: "Mesa 1"}, {id: 2, nome: "Mesa 2"}, {id: 3, nome: "Mesa 3"}]
   function handleChangeDate (e: ChangeEvent<HTMLInputElement>) {
     setDateTables(e.target.value)
+  }
+
+  async function handleSubmitFor(e:FormEvent) {
+    e.preventDefault()
   }
 
   return(
@@ -90,13 +110,14 @@ export default function Home() {
         {selectedTable ? (
           <div>
             <h2 className="text-xl font-bold mb-4">Reservar {selectedTable}</h2>
-            <form className="flex flex-col space-y-4">
+            <form className="flex flex-col space-y-4" onSubmit={handleSubmitFor}>
               <label className="flex flex-col">
-                Nome:
+                Usuario ID:
                 <input
-                  type="text"
+                  type="number"
                   className="p-2 border rounded"
                   placeholder="Seu nome"
+                  onChange={(e)=> alterFormReserva("usuario_id", parseInt(e.target.value))}
                 />
               </label>
               <label className="flex flex-col">
@@ -104,6 +125,7 @@ export default function Home() {
                 <input
                   type="date"
                   className="p-2 border rounded"
+                  onChange={(e)=> alterFormReserva("data", e.target.value)}
                 />
               </label>
               <label className="flex flex-col">
@@ -112,7 +134,7 @@ export default function Home() {
                   type="number"
                   max={4}
                   min={1}
-                
+                  onChange={(e)=> alterFormReserva("n_pessoas", parseInt(e.target.value))}
                   className="p-2 border rounded"
                 />
               </label>
