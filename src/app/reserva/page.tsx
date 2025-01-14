@@ -5,7 +5,7 @@ import Image from "next/image";
 import style from "./reserva.module.css";
 import {stringify} from "querystring";
 import { ChangeEvent,FormEvent,useEffect, useState } from "react";
-import Mesa from "../Interfaces/mesa";
+import { Mesa }from "../Interfaces/mesa";
 import { Reservas } from "../Interfaces/reservas";
 
 export default function Home() {
@@ -16,7 +16,7 @@ export default function Home() {
       id: 0,
     usuario_id:0,
     mesa_id:0,
-    data: "",
+    data: getDateNow(),
     n_pessoas:0,
     status: true
     })
@@ -28,14 +28,17 @@ export default function Home() {
     }))
    }
 
+   async function fetchData() {
+    const responseReservas = await fetch('http://localhost:3333/reservas')
+    const responseMesas = await fetch('http://localhost:3333/mesas')
+    const dataReservas = await responseReservas.json()
+    const dataMesas = await responseMesas.json()
+    setMesas(dataMesas)
+    setreservas(dataReservas)
+  }
     useEffect(()=>{
-      async function fetchData() {
-        const response = await fetch('http://localhost:3333/reservas')
-        const data = await response.json()
-        setMesas(data.mesas)
-        setreservas(data.reservas)
-      }
-    })
+      fetchData()
+    },[])
 
     function getDateNow (){
       const today = new Date()
@@ -46,10 +49,16 @@ export default function Home() {
   const tables = [{id: 1, nome: "Mesa 1"}, {id: 2, nome: "Mesa 2"}, {id: 3, nome: "Mesa 3"}]
   function handleChangeDate (e: ChangeEvent<HTMLInputElement>) {
     setDateTables(e.target.value)
+    alterFormReserva("data", e.target.value)
   }
 
   async function handleSubmitFor(e:FormEvent) {
     e.preventDefault()
+    await fetch('http://localhost:3333/reservas',{
+      method: 'POST',
+      body: JSON.stringify(formReserva)
+    })
+    fetchData();
   }
 
   return(
@@ -64,7 +73,7 @@ export default function Home() {
             alt="Usuário"
             className="w-24 h-24 mx-auto rounded-full border-4 border-indigo-500"
           />
-    <h2 className="text-center text-lg font-bold mt-4">Moniky Souza Lopes</h2>
+    <h2 className="text-center text-lg font-bold mt-4">Marielle Toldo Ortega</h2>
           <p className="text-center text-gray-600">Cliente</p>
         </div>
       </div>
@@ -89,7 +98,6 @@ export default function Home() {
               <button
                 key={table.id}
                 className="p-4 text-white bg-red-500 rounded-lg hover:bg-red-600 focus:outline-none focus:bg-red-700"
-                onClick={() => setSelectedTable(table.nome)}
               >
                 {table.nome}
               </button>
@@ -99,7 +107,9 @@ export default function Home() {
             <button
               key={table.id}
               className="p-4 text-white bg-indigo-500 rounded-lg hover:bg-indigo-600 focus:outline-none focus:bg-indigo-700"
-              onClick={() => setSelectedTable(table.nome)}
+              onClick={() => {
+                alterFormReserva("mesa_id", table.id)
+                setSelectedTable(table.nome)}}
             >
               {table.nome}
             </button>
@@ -118,14 +128,6 @@ export default function Home() {
                   className="p-2 border rounded"
                   placeholder="Seu nome"
                   onChange={(e)=> alterFormReserva("usuario_id", parseInt(e.target.value))}
-                />
-              </label>
-              <label className="flex flex-col">
-                Data:
-                <input
-                  type="date"
-                  className="p-2 border rounded"
-                  onChange={(e)=> alterFormReserva("data", e.target.value)}
                 />
               </label>
               <label className="flex flex-col">
