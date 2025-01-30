@@ -1,4 +1,4 @@
-export interface Reservas{
+export interface Reserva{
     id: number;
     usuario_id:number;
     mesa_id:number;
