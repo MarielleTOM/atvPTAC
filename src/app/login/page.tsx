@@ -33,6 +33,7 @@ export default function Login() {
           },
           body: JSON.stringify({email, password})
          })
+         
           if (response){
             const data : ResponseSignin = await response.json()
             const {erro, mensagem, token = ''} = data;

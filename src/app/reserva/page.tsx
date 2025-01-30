@@ -3,11 +3,13 @@
 import { useEffect, useState, FormEvent } from "react";
 import { parseCookies } from "nookies";
 import NavBar from "../Componentes/navbar";
-import styles from "./reserva.module.css"; // Importa o CSS local
+import styles from "./reserva.module.css";
 import Mesa from "../Interfaces/mesa";
 import Reserva from "../Interfaces/reserva";
+import Menu from "../Componentes/menu";
+import {getUser} from "../utils/serverActions"
 
-export default function Home() {
+export default function Reservas() {
   const [mesas, setMesas] = useState<Mesa[]>([]);
   const [reservas, setReservas] = useState<Reserva[]>([]);
   const [loading, setLoading] = useState(true);
@@ -18,6 +20,7 @@ export default function Home() {
     n_pessoas: 1,
     data: "",
   });
+  const [user,setUser] = useState<any>(null);
 
   async function fetchData() {
     const cookies = parseCookies();
@@ -53,56 +56,21 @@ export default function Home() {
       setLoading(false);
     }
   }
-  async function handleCancelarReserva(reservaId: number) {
-    const cookies = parseCookies();
-    const token = cookies["restaurant-token"];
-  
-    if (window.confirm("Tem certeza de que deseja cancelar esta reserva?")) {
-      try {
-        const response = await fetch(`http://localhost:8000/reservas`, {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({ reservaId }),
-        });
-  
-        if (response.ok) {
-          alert("Reserva cancelada com sucesso!");
-          fetchData(); // Atualiza os dados na tela
-        } else {
-          const errorData = await response.json();
-          alert(errorData.mensagem || "Erro ao cancelar a reserva.");
-        }
-      } catch (error) {
-        console.error("Erro ao cancelar reserva:", error);
-        alert("Erro ao cancelar a reserva. Tente novamente.");
-      }
-    }
-  }
-  
 
-  // Busca reservas por data (para administradores)
-  async function fetchReservasPorData() {
-    const cookies = parseCookies();
-    const token = cookies["restaurant-token"];
+  useEffect(() => {
+    fetchData();
 
-    try {
-      const response = await fetch(`http://localhost:8000/reservas/list?data=${dateTables}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        setReservas(data.reservas || []);
+    async function fetchUser() {
+      const usuario = await getUser();
+      if (!usuario) {
+        window.location.href = "/"; // Redireciona se não estiver logado
       } else {
-        console.error("Erro ao buscar reservas por data.");
+        setUser(usuario);
       }
-    } catch (error) {
-      console.error("Erro ao buscar reservas por data:", error);
     }
-  }
+
+    fetchUser();
+  }, [dateTables]);
 
   async function handleNovaReserva(e: FormEvent) {
     e.preventDefault();
@@ -129,13 +97,34 @@ export default function Home() {
     }
   }
 
-  function handleChangeDate(e: React.ChangeEvent<HTMLInputElement>) {
-    setDateTables(e.target.value);
-  }
+  async function handleCancelarReserva(reservaId: number) {
+    const cookies = parseCookies();
+    const token = cookies["restaurant-token"];
 
-  useEffect(() => {
-    fetchData();
-  }, [dateTables]);
+    if (window.confirm("Tem certeza de que deseja cancelar esta reserva?")) {
+      try {
+        const response = await fetch(`http://localhost:8000/reservas`, {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ reservaId }),
+        });
+
+        if (response.ok) {
+          alert("Reserva cancelada com sucesso!");
+          fetchData();
+        } else {
+          const errorData = await response.json();
+          alert(errorData.mensagem || "Erro ao cancelar a reserva.");
+        }
+      } catch (error) {
+        console.error("Erro ao cancelar reserva:", error);
+        alert("Erro ao cancelar a reserva. Tente novamente.");
+      }
+    }
+  }
 
   if (loading) {
     return <p className={styles.loading}>Carregando...</p>;
@@ -144,73 +133,70 @@ export default function Home() {
   return (
     <div>
       <NavBar />
-      <div className={styles.container}>
-        <h1 className={styles.h1}>Reservas</h1>
+      <div className="min-h-screen bg-gray-100 flex flex-col lg:flex-row">
+        <Menu user={user} />
+        <div className={styles.container}>
+          <h1 className={styles.h1}>Reservas</h1>
 
-        {/* Exibe o botão de buscar reservas por data apenas para administradores */}
-        {isAdmin && (
-          <>
-            <h2 className={styles.titulo}>Buscar Reservas por Data</h2>
+          {isAdmin && (
+            <>
+              <h2 className={styles.titulo}>Buscar Reservas por Data</h2>
+              <input
+                type="date"
+                value={dateTables}
+                onChange={(e) => setDateTables(e.target.value)}
+                className={styles.input}
+              />
+              <button className={styles.button} onClick={fetchData}>
+                Buscar Reservas
+              </button>
+            </>
+          )}
+
+          <h2 className={styles.titulo}>{isAdmin ? "Todas as Reservas" : "Minhas Reservas"}</h2>
+          <ul className={styles.reservasList}>
+            {reservas.map((reserva) => (
+              <li key={reserva.id} className={styles.reservaItem}>
+                <p>Mesa: {reserva.mesa.codigo || reserva.mesaId}</p>
+                <p>Data: {new Date(reserva.data).toLocaleDateString()}</p>
+                <p>Pessoas: {reserva.n_pessoas}</p>
+                {isAdmin && <p>Cliente: {reserva.usuario?.nome || "Não identificado"}</p>}
+
+                <button className={styles.cancelButton} onClick={() => handleCancelarReserva(reserva.id)}>
+                  Cancelar
+                </button>
+              </li>
+            ))}
+          </ul>
+
+          <h2 className={styles.titulo}>Mesas Disponíveis</h2>
+          <div className={styles.mesas}>
+            {mesas.map((mesa) => (
+              <button
+                key={mesa.id}
+                className={styles.mesa}
+                onClick={() => setFormReserva({ ...formReserva, mesaId: mesa.id, data: dateTables })}
+              >
+                Mesa {mesa.codigo} - {mesa.n_lugares} lugares
+              </button>
+            ))}
+          </div>
+
+          <form onSubmit={handleNovaReserva} className={styles.form}>
+            <label className={styles.label}>Número de Pessoas:</label>
             <input
-              type="date"
-              value={dateTables}
-              onChange={handleChangeDate}
+              type="number"
               className={styles.input}
+              min={1}
+              max={mesas.find((m) => m.id === formReserva.mesaId)?.n_lugares || 1}
+              value={formReserva.n_pessoas}
+              onChange={(e) => setFormReserva({ ...formReserva, n_pessoas: Number(e.target.value) })}
             />
-            <button className={styles.button} onClick={fetchReservasPorData}>
-              Buscar Reservas
+            <button type="submit" className={styles.button}>
+              Reservar
             </button>
-          </>
-        )}
-
-        {/* Lista de reservas */}
-        <h2 className={styles.titulo}>{isAdmin ? "Todas as Reservas" : "Minhas Reservas"}</h2>
-        <ul className={styles.reservasList}>
-  {reservas.map((reserva) => (
-    <li key={reserva.id} className={styles.reservaItem}>
-      <p>Mesa: {reserva.mesa.codigo || reserva.mesaId}</p>
-      <p>Data: {new Date(reserva.data).toLocaleDateString()}</p>
-      <p>Pessoas: {reserva.n_pessoas}</p>
-      {isAdmin && <p>Cliente: {reserva.usuario?.nome || "Não identificado"}</p>}
-      {/* Botão de Cancelar */}
-      <button
-        className={styles.cancelButton}
-        onClick={() => handleCancelarReserva(reserva.id)}
-      >
-        Cancelar
-      </button>
-    </li>
-  ))}
-</ul>
-        {/* Mesas disponíveis */}
-        <h2 className={styles.titulo}>Mesas Disponíveis</h2>
-        <div className={styles.mesas}>
-          {mesas.map((mesa) => (
-            <button
-              key={mesa.id}
-              className={styles.mesa}
-              onClick={() => setFormReserva({ ...formReserva, mesaId: mesa.id, data: dateTables })}
-            >
-              Mesa {mesa.codigo} - {mesa.n_lugares} lugares
-            </button>
-          ))}
+          </form>
         </div>
-
-        {/* Formulário para criar nova reserva */}
-        <form onSubmit={handleNovaReserva} className={styles.form}>
-          <label className={styles.label}>Número de Pessoas:</label>
-          <input
-            type="number"
-            className={styles.input}
-            min={1}
-            max={mesas.find((m) => m.id === formReserva.mesaId)?.n_lugares || 1}
-            value={formReserva.n_pessoas}
-            onChange={(e) => setFormReserva({ ...formReserva, n_pessoas: Number(e.target.value) })}
-          />
-          <button type="submit" className={styles.button}>
-            Reservar
-          </button>
-        </form>
       </div>
     </div>
   );
