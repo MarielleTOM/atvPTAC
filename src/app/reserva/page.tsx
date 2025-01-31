@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState, FormEvent } from "react";
-import { parseCookies } from "nookies";
 import NavBar from "../Componentes/navbar";
 import styles from "./reserva.module.css";
 import Menu from "../Componentes/menu";
@@ -12,7 +11,9 @@ export default function Reservas() {
   const [loading,setLoading] = useState(true)
 
   useEffect(() => {
-    async function fetchUser() {
+    async function fetchData() {
+      setLoading(true);
+      
       const usuario = await getUser();
       if (!usuario) {
         window.location.href = "/"; // Redireciona se não estiver logado
@@ -22,7 +23,7 @@ export default function Reservas() {
       setLoading(false)
     }
 
-    fetchUser();
+    fetchData();
   },[]);
 
   if (loading) {

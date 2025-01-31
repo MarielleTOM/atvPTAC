@@ -2,7 +2,7 @@
 
 import Mesa from "@/app/Interfaces/mesa";
 import ModalMap from "@/app/Componentes/modalMap";
-import Reserva from "@/app/utils/reservas"
+import Reserva from "@/app/Interfaces/reserva";
 import { use, useState } from 'react';
 
 type ListMesasReservaProps = {
