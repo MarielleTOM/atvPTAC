@@ -10,12 +10,12 @@ export default async function NovaReserva() {
     const mesas = await getMesa();
 
     return (
-    <div>
-        <NavBar/>
-        <div className="min-h-screen bg-gray-100 flex flex-col lg:flex-row">
-            <Menu user={user} />
-            <ListMesasReserva mesas={mesas} />
-        </div>
+        <div>
+            <NavBar />
+            <div className="min-h-screen bg-gray-100 flex flex-col lg:flex-row">
+                <Menu user={user} />
+                <ListMesasReserva mesas={mesas} />
+            </div>
         </div>
     );
 }

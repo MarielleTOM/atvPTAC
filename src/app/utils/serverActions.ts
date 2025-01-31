@@ -4,8 +4,8 @@ import { cookies } from "next/headers";
 import { ApiURL } from "../config";
 
 export async function getUser() {
-  const cookieStore = cookies();
-  const token = (await cookieStore).get("restaurant-token");
+  const cookieStore = await cookies();
+  const token = cookieStore.get("restaurant-token");
 
   if (!token) {
     console.log("Token não encontrado.");

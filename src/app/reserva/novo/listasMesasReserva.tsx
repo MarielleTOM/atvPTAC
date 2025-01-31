@@ -16,12 +16,13 @@ export function ListMesasReserva({ mesas }: ListMesasReservaProps) {
     const [mesas2, setMesas2] = useState<Mesa | null>(null)
 
     async function handleFecthData() {
-        setLoadReservas(true)
-        await new Promise(reseolve => setTimeout(reseolve, 3000))
-        const res = await a(data)
-        setReservas(res)
-        setLoadReservas(false)
+        setLoadReservas(true);
+        await new Promise(reseolve => setTimeout(reseolve, 3000));
+        const res = await a(data);
+        setReservas(res);
+        setLoadReservas(false);
     };
+
     return (
         <div className="w-full lg:w-3/4 flex flex-col lg:flex-row p-4 rounded-lg overflow-hidden">
             <div className="w-full bg-white p-6 rounded-lg shadow-lg">
@@ -48,7 +49,7 @@ export function ListMesasReserva({ mesas }: ListMesasReservaProps) {
 
                     {reservas && !loadReservas &&
                         mesas.map(mesa => {
-                            if (reservas.find(reserva => reserva.mesaId === mesa.id))
+                            if (reservas.find(reserva => reserva.mesa_id === mesa.id))
                                 return (
                                     <button
                                         key={mesa.id}
