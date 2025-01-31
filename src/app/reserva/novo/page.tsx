@@ -1,7 +1,6 @@
 import { getUser } from "@/app/utils/serverActions";
 import Menu from "@/app/Componentes/menu";
 import NavBar from "@/app/Componentes/navbar";
-import { redirect } from "next/navigation";
 import { ListMesasReserva } from "./listasMesasReserva";
 import { getMesa } from "@/app/utils/mesas";
 

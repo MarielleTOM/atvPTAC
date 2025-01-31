@@ -4,11 +4,11 @@ import { useEffect, useState, FormEvent } from "react";
 import NavBar from "../Componentes/navbar";
 import styles from "./reserva.module.css";
 import Menu from "../Componentes/menu";
-import {getUser} from "../utils/serverActions";
+import { getUser } from "../utils/serverActions";
 
 export default function Reservas() {
-  const [user,setUser] = useState<any>(null);
-  const [loading,setLoading] = useState(true)
+  const [user, setUser] = useState<any>(null);
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     async function fetchData() {
@@ -24,7 +24,7 @@ export default function Reservas() {
     }
 
     fetchData();
-  },[]);
+  }, []);
 
   if (loading) {
     return <p className={styles.loading}>Carregando...</p>;

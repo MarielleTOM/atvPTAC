@@ -1,3 +1,5 @@
+import Mesa from './mesa';
+
 export interface Reserva{
     id: number;
     usuario_id:number;
@@ -5,4 +7,7 @@ export interface Reserva{
     data: string;
     n_pessoas:number;
     status: boolean;
+    mesa?: Mesa
 }
+
+export default Reserva

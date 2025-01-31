@@ -3,6 +3,7 @@
 import { redirect } from "next/navigation";
 import { getUser } from "../utils/serverActions";
 import Menu from "../Componentes/menu";
+import NavBar from "../Componentes/navbar";
 import { ListMesas } from "./listMesas";
 import { getMesa } from "../utils/mesas";
 
@@ -10,13 +11,16 @@ import { getMesa } from "../utils/mesas";
 export default async function Mesas() {
     const user = await getUser()
     const mesas = await getMesa()
-    
-    if(!user || user.tipo === "cliente" || !mesas) redirect('/')
-    
-        return(
+
+    if (!user || user.tipo === "cliente" || !mesas) redirect('/')
+
+    return (
+        <div>
+            <NavBar/>
             <div className="min-h-sreen bg-gray-100 flex flex-col lg:flex-row">
-                <Menu user={user}/>
-                <ListMesas mesas={mesas}/>
+                <Menu user={user} />
+                <ListMesas mesas={mesas} />
             </div>
-        )
+        </div>
+    )
 }

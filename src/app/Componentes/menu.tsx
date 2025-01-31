@@ -1,16 +1,16 @@
-"use client"
+'use client'
 
 import Image from "next/image";
 import Usuario from "../Interfaces/usuario";
 import Link from "next/link";
-import {ChefHat, ClipboardList, User, LogOut} from 'lucide-react';
-import {logOut} from "../utils/auth";
+import { ChefHat, ClipboardList, User, LogOut } from 'lucide-react';
+import { logOut } from "../utils/auth";
 
 type MenuProps = {
     user?: Usuario | null; // Permite que user seja opcional ou nulo
 };
 export default function Menu({ user }: MenuProps) {
-    function handleLogout(){
+    function handleLogout() {
         logOut();
     }
 
@@ -34,15 +34,15 @@ export default function Menu({ user }: MenuProps) {
             {user?.tipo == 'admin' ? (
                 <div className="mt-4 space-y-2 w-full flex flex-wrap gap-2">
                     <Link href={'/reserva/todas'} className="flex items-center bg-white text-gray-800 w-full py-2 px-4 shadow-md rounded-lg hover:bg-slate-300 transition-colors">
-                        <ClipboardList className="w-5 h-5 mr-2"/>
+                        <ClipboardList className="w-5 h-5 mr-2" />
                         Todas as Reservas
                     </Link>
                     <Link href={'/mesa'} className="flex items-center bg-white text-gray-800 w-full py-2 px-4 shadow-md rounded-lg hover:bg-slate-300 transition-colors">
-                        <ChefHat className="w-5 h-5 mr-2"/>
+                        <ChefHat className="w-5 h-5 mr-2" />
                         Mesas
                     </Link>
                     <Link href={'/perfil'} className="flex items-center bg-white text-gray-800 w-full py-2 px-4 shadow-md rounded-lg hover:bg-slate-300 transition-colors">
-                        <User className="w-5 h-5 mr-2"/>
+                        <User className="w-5 h-5 mr-2" />
                         Perfil
                     </Link>
                     <button
@@ -55,19 +55,19 @@ export default function Menu({ user }: MenuProps) {
             ) : (
                 <div className="mt-4 space-y-2 w-full flex flex-wrap gap-2">
                     <Link href={'/reserva/novo'} className="flex items-center bg-white text-gray-800 w-full py-2 px-4 shadow-md rounded-lg hover:bg-slate-300 transition-colors">
-                        <ClipboardList className="w-5 h-5 mr-2"/>
+                        <ClipboardList className="w-5 h-5 mr-2" />
                         Nova Reserva
                     </Link>
                     <Link href={'/reserva'} className="flex items-center bg-white text-gray-800 w-full py-2 px-4 shadow-md rounded-lg hover:bg-slate-300 transition-colors">
-                        <ClipboardList className="w-5 h-5 mr-2"/>
+                        <ClipboardList className="w-5 h-5 mr-2" />
                         Minhas Reservas
                     </Link>
                     <Link href={'/mesas'} className="flex items-center bg-white text-gray-800 w-full py-2 px-4 shadow-md rounded-lg hover:bg-slate-300 transition-colors">
-                        <ChefHat className="w-5 h-5 mr-2"/>
+                        <ChefHat className="w-5 h-5 mr-2" />
                         Mesas
                     </Link>
                     <Link href={'/perfil'} className="flex items-center bg-white text-gray-800 w-full py-2 px-4 shadow-md rounded-lg hover:bg-slate-300 transition-colors">
-                        <User className="w-5 h-5 mr-2"/>
+                        <User className="w-5 h-5 mr-2" />
                         Perfil
                     </Link>
                     <button

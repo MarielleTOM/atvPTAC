@@ -6,8 +6,8 @@ export default function navBar() {
         <header>
             <nav className={Styles.cabecalho}>
                 <div>
-                <Link href={"/"}>
-                    <h1>Marielly's restaurant</h1>
+                    <Link href={"/"}>
+                        <h1>Marielly's restaurant</h1>
                     </Link>
                 </div>
             </nav>

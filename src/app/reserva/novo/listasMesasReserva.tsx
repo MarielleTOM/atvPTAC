@@ -71,13 +71,13 @@ export function ListMesasReserva({ mesas }: ListMesasReservaProps) {
                 </div>
             </div>
             {mesas2 && (
-        <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center">
-            <div className="bg-white rounded-lg shadow-lg p-6 w-1/3">
+                <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center">
+                    <div className="bg-white rounded-lg shadow-lg p-6 w-1/3">
 
-        </div>  
-        
-     </div>
-   )}
+                    </div>
+
+                </div>
+            )}
         </div>
     )
 }
