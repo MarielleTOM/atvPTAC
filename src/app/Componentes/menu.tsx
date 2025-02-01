@@ -37,9 +37,9 @@ export default function Menu({ user }: MenuProps) {
                         <ClipboardList className="w-5 h-5 mr-2" />
                         Todas as Reservas
                     </Link>
-                    <Link href={'/mesa'} className="flex items-center bg-white text-gray-800 w-full py-2 px-4 shadow-md rounded-lg hover:bg-slate-300 transition-colors">
+                    <Link href={'/mesas'} className="flex items-center bg-white text-gray-800 w-full py-2 px-4 shadow-md rounded-lg hover:bg-slate-300 transition-colors">
                         <ChefHat className="w-5 h-5 mr-2" />
-                        Mesas
+                        Mesa
                     </Link>
                     <Link href={'/perfil'} className="flex items-center bg-white text-gray-800 w-full py-2 px-4 shadow-md rounded-lg hover:bg-slate-300 transition-colors">
                         <User className="w-5 h-5 mr-2" />

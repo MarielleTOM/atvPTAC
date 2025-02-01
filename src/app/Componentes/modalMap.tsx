@@ -10,7 +10,8 @@ export default function ModalMap() {
                 className="relative w-3/4 lg:w-1/4 aspect-video border-4 border-gray-400 rounded-lg shadow-md cursor-pointer"
                 onClick={() => setIsMapOpen(true)}
             >
-                <Image src={'/mapa.jpg'} fill alt="mapa restaurante" />
+                <Image src={'/mapa.png'} fill alt="mapa restaurante" />
+                
                 {isMapOpen && (
                     <div
                         className="fixed inset-0 bg-slate-800 bg-opacity-50 flex justify-center items-center z-50"

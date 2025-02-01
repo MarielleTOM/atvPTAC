@@ -1,11 +1,11 @@
-type InputProp= {
+type InputProp = {
     valor: string;
-    funcao: ()=> void
+    funcao: () => void
 }
 
-const Input : React.FC<InputProp>= ({valor, funcao}) => {
-    return(
-        <input value={valor} onChange={funcao}/>
+const Input: React.FC<InputProp> = ({ valor, funcao }) => {
+    return (
+        <input value={valor} onChange={funcao} />
     )
 }
 

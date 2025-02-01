@@ -4,6 +4,7 @@ import Mesa from "@/app/Interfaces/mesa";
 import ModalMap from "@/app/Componentes/modalMap";
 import Reserva from "@/app/Interfaces/reserva";
 import { use, useState } from 'react';
+import { ApiURL } from '@/app/config';
 
 type ListMesasReservaProps = {
     mesas: Mesa[]
@@ -17,11 +18,20 @@ export function ListMesasReserva({ mesas }: ListMesasReservaProps) {
 
     async function handleFecthData() {
         setLoadReservas(true);
-        await new Promise(reseolve => setTimeout(reseolve, 3000));
-        const res = await a(data);
-        setReservas(res);
+        
+        try {
+            const response = await fetch(`${ApiURL}/auth/novo`);
+            if (!response.ok) throw new Error("Erro ao buscar reservas");
+    
+            const res: Reserva[] = await response.json();
+            setReservas(res);
+        } catch (error) {
+            console.error("Erro ao buscar reservas:", error);
+        }
+    
         setLoadReservas(false);
-    };
+    }
+    
 
     return (
         <div className="w-full lg:w-3/4 flex flex-col lg:flex-row p-4 rounded-lg overflow-hidden">

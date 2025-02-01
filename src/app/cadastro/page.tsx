@@ -19,7 +19,7 @@ export default function cadastro() {
         nome: '',
         email: '',
         password: '',
-        tipo: 'cliente'
+        tipo: 'admin'
     })
     const [erroCadastro, setErroCadastro] = useState<string>('');
 
