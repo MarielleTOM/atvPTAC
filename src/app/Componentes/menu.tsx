@@ -31,7 +31,7 @@ export default function Menu({ user }: MenuProps) {
                     {user?.tipo ? user.tipo : "Tipo não informado!"}
                 </p>
             </div>
-            {user?.tipo == 'admin' ? (
+            {user?.tipo == 'adm' ? (
                 <div className="mt-4 space-y-2 w-full flex flex-wrap gap-2">
                     <Link href={'/reserva/todas'} className="flex items-center bg-white text-gray-800 w-full py-2 px-4 shadow-md rounded-lg hover:bg-slate-300 transition-colors">
                         <ClipboardList className="w-5 h-5 mr-2" />
@@ -58,13 +58,9 @@ export default function Menu({ user }: MenuProps) {
                         <ClipboardList className="w-5 h-5 mr-2" />
                         Nova Reserva
                     </Link>
-                    <Link href={'/reserva'} className="flex items-center bg-white text-gray-800 w-full py-2 px-4 shadow-md rounded-lg hover:bg-slate-300 transition-colors">
+                    <Link href={'/reserva/MinhasReservas'} className="flex items-center bg-white text-gray-800 w-full py-2 px-4 shadow-md rounded-lg hover:bg-slate-300 transition-colors">
                         <ClipboardList className="w-5 h-5 mr-2" />
                         Minhas Reservas
-                    </Link>
-                    <Link href={'/mesas'} className="flex items-center bg-white text-gray-800 w-full py-2 px-4 shadow-md rounded-lg hover:bg-slate-300 transition-colors">
-                        <ChefHat className="w-5 h-5 mr-2" />
-                        Mesas
                     </Link>
                     <Link href={'/perfil'} className="flex items-center bg-white text-gray-800 w-full py-2 px-4 shadow-md rounded-lg hover:bg-slate-300 transition-colors">
                         <User className="w-5 h-5 mr-2" />
