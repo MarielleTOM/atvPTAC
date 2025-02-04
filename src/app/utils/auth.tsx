@@ -6,7 +6,7 @@ import { redirect } from 'next/navigation'
 
 
 //Server actions
-export async function register(state: any, formData: FormData) {
+export async function singup(state: any, formData: FormData) {
   const email = formData.get('email')
   const password = formData.get('password')
 
@@ -29,12 +29,12 @@ export async function register(state: any, formData: FormData) {
 
         const {erro, mensagem, token} = data
 
-        if {erro} return {erro, email, mensagem}
+        if (erro) return {erro, email, mensagem}
         const cookieStored =  await cookies()
         cookieStored.set('restaurant-token', token, {
                 maxAge: 60*60*1 // 1 hora
         })
-        redirect(`/`)
+        
 
   } catch (error) {
         return {
@@ -43,13 +43,15 @@ export async function register(state: any, formData: FormData) {
                 mensagem: 'Algum erro no redirecionamento'
         }
   }
+  redirect(`/`)
+}
 
-  export async function register(state: any, formData: FormData) {
+  export async function register(state: any, formData : FormData) {
         const nome = formData.get('nome')
         const email = formData.get('email')
         const password = formData.get('password')
         const confirm_password = formData.get('confirm_password')
-      console.log(nome, email, password, confirm_password)
+       console.log(nome, email, password, confirm_password)
 
         if(!email || !password || !nome || !confirm_password) return {
               error: true,
@@ -57,23 +59,42 @@ export async function register(state: any, formData: FormData) {
               mensagem: 'Valores faltando'
         }      
 
-        if (password !=== confirm_password){
-                return{
+        if (password != confirm_password){
+                return {
                         erro: true,
                         email,
                         mensagem: 'As duas senhas devem ser iguais'
                 }
         }
 
-        try{
+        try {
            const res = await fetch(`${ApiURL}/auth/cadastro`, {
                  method: 'POST',
                  headers: {'Context-Type': 'application/json'},
-                 body: JSON.stringify({email, password})
+                 body: JSON.stringify({nome, email, password})
                 })
-  return {
-        error: false,
-        mensagem: 'Valores recebidos'
-  }
+
+console.log(res)
+
+const data = await res.json()
+
+const {erro, mensagem, token} = data
+
+if (erro) return {erro, email, mensagem}
+        const cookieStored =  await cookies()
+        cookieStored.set('restaurant-token', token, {
+                maxAge: 60*60*1 // 1 hora
+        })
+
+ } catch (error) {
+      return {
+            erro: true,
+            email,
+            mensagem: 'Algum erro no redirecionamento'
+            }
+      }
+
+      redirect(`/`)
+
 }
         

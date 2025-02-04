@@ -1,11 +1,11 @@
-import { getUser } from "@/app/utils/serverActions";
+import { fecthUser } from "@/app/utils/auth";
 import Menu from "@/app/Componentes/menu";
 import NavBar from "@/app/Componentes/navbar";
 import { ListMesasReserva } from "./listasMesasReserva";
 import { getMesa } from "@/app/utils/mesas";
 
 export default async function NovaReserva() {
-    const user = await getUser();
+    const user = await fecthUser();
     const mesas = await getMesa();
 
     return (

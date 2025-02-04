@@ -1,4 +1,5 @@
 'use client'
+
 import { FormEvent, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Styles from "./login.module.css";
@@ -6,7 +7,7 @@ import Input from "../Componentes/input";
 import Usuario from '../Interfaces/usuario';
 import NavBar from '../Componentes/navbar';
 import { setCookie } from 'nookies';
-import { ApiURL } from '../config';
+import { ApiURL } from '../utils/config';
 
 
 interface ResponseSignin {

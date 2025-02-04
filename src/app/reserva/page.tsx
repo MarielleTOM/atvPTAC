@@ -4,9 +4,12 @@ import { useEffect, useState, FormEvent } from "react";
 import NavBar from "../Componentes/navbar";
 import styles from "./reserva.module.css";
 import Menu from "../Componentes/menu";
-import { getUser } from "../utils/serverActions";
+import { ApiURL } from "../utils/config";
+import { cookies } from "next/headers";
+import { FecthUser } from "../utils/auth";
 
 export default function Reservas() {
+
   const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState(true)
 
@@ -14,7 +17,7 @@ export default function Reservas() {
     async function fetchData() {
       setLoading(true);
 
-      const usuario = await getUser();
+      const usuario = await FecthUser();
       if (!usuario) {
         window.location.href = "/"; // Redireciona se não estiver logado
       } else {
